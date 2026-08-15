@@ -10,7 +10,7 @@ The project uses Docker for containerization, Terraform for AWS infrastructure, 
 
 ## Tech Stack
 
-![Tech Stack](docs/tech-stack.png)
+![Tech Stack](docs/techstack.png)
 
 ## Application
 
