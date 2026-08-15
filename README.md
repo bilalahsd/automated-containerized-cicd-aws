@@ -6,76 +6,11 @@ The project uses Docker for containerization, Terraform for AWS infrastructure, 
 
 ## Architecture
 
-```text
-Developer
-   |
-   | git push
-   v
-GitHub
-   |
-   v
-GitHub Actions
-   |
-   +--> Install dependencies
-   +--> Run tests
-   +--> Build Docker image
-   +--> Push image to Amazon ECR
-   +--> Authenticate to AWS using OIDC
-   +--> Update Kubernetes deployment
-   +--> Wait for rollout
-   |
-   v
-Amazon EKS
-   |
-   +--> Kubernetes Deployment
-   |       |
-   |       +--> Pod
-   |       +--> Pod
-   |
-   +--> Kubernetes Service
-   |
-   +--> AWS Load Balancer
-   |
-   v
-Public REST API
-```
+![AWS EKS CI/CD Architecture](docs/architecture.png)
 
 ## Tech Stack
 
-**Application**
-- Node.js
-- Express.js
-- JavaScript
-
-**Containerization**
-- Docker
-- Amazon ECR
-
-**AWS**
-- Amazon VPC
-- Amazon EKS
-- IAM
-- Amazon ECR
-- Elastic Load Balancing
-- CloudWatch
-
-**Kubernetes**
-- Deployments
-- Services
-- ConfigMaps
-- Horizontal Pod Autoscaler
-- Metrics Server
-- Liveness and readiness probes
-- Resource requests and limits
-- Rolling updates and rollbacks
-- RBAC
-
-**DevOps**
-- Git
-- GitHub
-- GitHub Actions
-- Terraform
-- GitHub OIDC
+![Tech Stack](docs/tech-stack.png)
 
 ## Application
 
