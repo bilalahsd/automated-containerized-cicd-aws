@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   push:
@@ -8,8 +8,16 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: ap-south-1
+  ECR_REPOSITORY: automated-dep-aws-api
+
 jobs:
-  test-and-build:
+  test-and-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,5 +39,28 @@ jobs:
         working-directory: app
         run: npm test
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::972050063961:role/project-2-github-actions-role
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
       - name: Build Docker image
-        run: docker build -t automated-dep-aws-api .
+        run: |
+          docker build \
+            -t $ECR_REPOSITORY:${{ github.sha }} \
+            .
+
+      - name: Tag Docker image
+        run: |
+          docker tag \
+            $ECR_REPOSITORY:${{ github.sha }} \
+            972050063961.dkr.ecr.ap-south-1.amazonaws.com/$ECR_REPOSITORY:${{ github.sha }}
+
+      - name: Push Docker image to ECR
+        run: |
+          docker push \
+            972050063961.dkr.ecr.ap-south-1.amazonaws.com/$ECR_REPOSITORY:${{ github.sha }}
