@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: automated-dep-api-config
+  namespace: automated-dep
+data:
+  NODE_ENV: "production"

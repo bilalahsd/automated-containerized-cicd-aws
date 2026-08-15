@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: automated-dep-api-service
+  namespace: automated-dep
+spec:
+  type: LoadBalancer
+  selector:
+    app: automated-dep-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
