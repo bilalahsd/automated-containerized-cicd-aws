@@ -54,31 +54,4 @@ jobs:
             -t $ECR_REPOSITORY:${{ github.sha }} \
             .
 
-      - name: Tag Docker image
-        run: |
-          docker tag \
-            $ECR_REPOSITORY:${{ github.sha }} \
-            972050063961.dkr.ecr.ap-south-1.amazonaws.com/$ECR_REPOSITORY:${{ github.sha }}
-
-      - name: Push Docker image to ECR
-        run: |
-          docker push \
-            972050063961.dkr.ecr.ap-south-1.amazonaws.com/$ECR_REPOSITORY:${{ github.sha }}
-
-      - name: Update kubeconfig
-        run: |
-          aws eks update-kubeconfig \
-            --region $AWS_REGION \
-            --name project-2-eks
-
-      - name: Update Kubernetes deployment
-        run: |
-          kubectl set image deployment/automated-dep-api \
-            api=972050063961.dkr.ecr.ap-south-1.amazonaws.com/automated-dep-aws-api:${{ github.sha }} \
-            -n automated-dep
-
-      - name: Wait for rollout
-        run: |
-          kubectl rollout status deployment/automated-dep-api \
-            -n automated-dep \
-            --timeout=5m
+                  - name: Push Docker image to ECR
