@@ -50,8 +50,4 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build \
-            -t $ECR_REPOSITORY:${{ github.sha }} \
-            .
-
-                  - name: Push Docker image to ECR
+          docker build -t $ECR_REPOSITORY:${{ github.sha }} .
